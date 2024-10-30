@@ -29,8 +29,8 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <header className="main-navigation">
           <nav>
-            <Link href="/SignUp">Sign Up</Link> | 
-            <Link href="/SignIn">Sign In</Link>
+            <Link href="/sign-up">Sign Up</Link> | 
+            <Link href="/sign-in">Sign In</Link>
           </nav>
         </header>
         {children}
@@ -38,3 +38,4 @@ export default function RootLayout({
     </html>
   );
 }
+
