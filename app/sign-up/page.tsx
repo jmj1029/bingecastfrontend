@@ -1,34 +1,34 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
-export default function SignUp() {
+export default function SignIn() {
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
 
-    const handleSignUp = async (e) => {
+    const handleSignIn = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('/api/auth/signup', {
+            const response = await fetch('/api/auth/signin', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
             });
 
-            if (!response.ok) throw new Error('Failed to sign up');
+            if (!response.ok) throw new Error('Failed to sign in');
 
             router.push('/');
         } catch (err) {
-            setError('Sign up failed. Please try again.');
+            setError('Sign in failed. Please try again.');
         }
     };
 
     return (
-        <div className="signup-container">
-            <h2>Sign Up</h2>
+        <div className="signin-container">
+            <h2>Sign In</h2>
             {error && <p className="error">{error}</p>}
-            <form onSubmit={handleSignUp}>
+            <form onSubmit={handleSignIn}>
                 <label>
                     Email:
                     <input
@@ -47,7 +47,7 @@ export default function SignUp() {
                         required
                     />
                 </label>
-                <button type="submit">Sign Up</button>
+                <button type="submit">Sign In</button>
             </form>
         </div>
     );
