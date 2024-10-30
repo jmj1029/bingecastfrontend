@@ -1,34 +1,36 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
+"use client";
 
-export default function SignIn() {
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+export default function SignUp() {
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
 
-    const handleSignIn = async (e) => {
+    const handleSignUp = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('/api/auth/signin', {
+            const response = await fetch('/api/auth/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
             });
 
-            if (!response.ok) throw new Error('Failed to sign in');
+            if (!response.ok) throw new Error('Failed to sign up');
 
             router.push('/');
         } catch (err) {
-            setError('Sign in failed. Please try again.');
+            setError('Sign up failed. Please try again.');
         }
     };
 
     return (
-        <div className="signin-container">
-            <h2>Sign In</h2>
+        <div className="signup-container">
+            <h2>Sign Up</h2>
             {error && <p className="error">{error}</p>}
-            <form onSubmit={handleSignIn}>
+            <form onSubmit={handleSignUp}>
                 <label>
                     Email:
                     <input
@@ -47,7 +49,7 @@ export default function SignIn() {
                         required
                     />
                 </label>
-                <button type="submit">Sign In</button>
+                <button type="submit">Sign Up</button>
             </form>
         </div>
     );
