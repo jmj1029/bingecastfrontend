@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -25,11 +26,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <header className="main-navigation">
+          <nav>
+            <Link href="/sign-up">Sign Up</Link> | 
+            <Link href="/sign-in">Sign In</Link>
+          </nav>
+        </header>
         {children}
       </body>
     </html>
   );
 }
+
