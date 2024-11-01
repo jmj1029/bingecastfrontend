@@ -1,13 +1,12 @@
 "use client";
 import React, { useState } from 'react';
 import { TextInput, Button } from 'flowbite-react';
-import { useRouter } from 'next/navigation';
 
 export default function SignInPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [token, setToken] = useState(null);
   const [error, setError] = useState(null);
-  const router = useRouter();
 
   const handleSignIn = async (event) => {
     event.preventDefault();
@@ -28,9 +27,10 @@ export default function SignInPage() {
 
       const data = await response.json();
       if (data.token) {
-        // Store token and redirect on successful login
+        // Store token and display it on the page
         localStorage.setItem("authToken", data.token);
-        router.push("/");  // Redirect to homepage or dashboard
+        setToken(data.token);  // Set the token state to display it
+        setError(null);  // Clear any previous errors
       }
     } catch (error) {
       setError("Invalid email or password. Please try again.");
@@ -44,30 +44,35 @@ export default function SignInPage() {
 
         {error && <p className="text-red-600 text-center mb-4">{error}</p>}
 
-        <TextInput
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="mb-4"
-        />
-        <TextInput
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className="mb-6"
-        />
-
-        <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 transition-all text-white font-semibold">
-          Sign In
-        </Button>
+        {token ? (
+          <div className="text-center">
+            <p className="text-green-600 mb-4">Successfully signed in!</p>
+            <p className="text-gray-700">Token: <span className="font-mono text-sm">{token}</span></p>
+          </div>
+        ) : (
+          <>
+            <TextInput
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="mb-4"
+            />
+            <TextInput
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="mb-6"
+            />
+            <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 transition-all text-white font-semibold">
+              Sign In
+            </Button>
+          </>
+        )}
       </form>
     </main>
   );
 }
-
-
-
