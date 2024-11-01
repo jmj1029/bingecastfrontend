@@ -2,7 +2,6 @@
 import 'flowbite/dist/flowbite.css';
 import { Avatar, Dropdown, Navbar } from 'flowbite-react';
 import React from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export function Header() {
@@ -11,6 +10,14 @@ export function Header() {
   const handleSignOut = () => {
     localStorage.removeItem("authToken");  // Clear token or session data
     router.push("/");  // Redirect to homepage after sign-out
+  };
+
+  const handleSignIn = () => {
+    router.push("/sign-in");  // Directly navigate to sign-in page
+  };
+
+  const handleSignUp = () => {
+    router.push("/sign-up");  // Directly navigate to sign-up page
   };
 
   return (
@@ -31,12 +38,8 @@ export function Header() {
             <span className="block text-sm">Bonnie Green</span>
             <span className="block truncate text-sm font-medium">name@flowbite.com</span>
           </Dropdown.Header>
-          <Dropdown.Item>
-            <Link href="/sign-in">Sign In</Link>  {/* Fixed Link usage */}
-          </Dropdown.Item>
-          <Dropdown.Item>
-            <Link href="/sign-up">Sign Up</Link>  {/* Fixed Link usage */}
-          </Dropdown.Item>
+          <Dropdown.Item onClick={handleSignIn}>Sign In</Dropdown.Item>
+          <Dropdown.Item onClick={handleSignUp}>Sign Up</Dropdown.Item>
           <Dropdown.Divider />
           <Dropdown.Item onClick={handleSignOut}>Sign out</Dropdown.Item>
         </Dropdown>
@@ -106,4 +109,3 @@ export default function HomePage() {
     </div>
   );
 }
-
