@@ -1,56 +1,40 @@
 "use client";
-
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { TextInput, Button } from 'flowbite-react';
 
-export default function SignIn() {
-    const router = useRouter();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
+export default function SignInPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    const handleSignIn = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch('/api/auth/signin', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
-            });
+  const handleSignIn = async (event) => {
+    event.preventDefault();
+    // Handle sign-in logic here, connecting to backend API if necessary
+    console.log('Signing in with:', email, password);
+  };
 
-            if (!response.ok) throw new Error('Failed to sign in');
-
-            router.push('/');
-        } catch (err) {
-            setError('Sign in failed. Please try again.');
-        }
-    };
-
-    return (
-        <div className="signin-container">
-            <h2>Sign In</h2>
-            {error && <p className="error">{error}</p>}
-            <form onSubmit={handleSignIn}>
-                <label>
-                    Email:
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </label>
-                <label>
-                    Password:
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </label>
-                <button type="submit">Sign In</button>
-            </form>
-        </div>
-    );
+  return (
+    <main className="flex items-center justify-center h-screen">
+      <form className="w-full max-w-sm" onSubmit={handleSignIn}>
+        <h1 className="text-2xl font-bold mb-6">Sign In</h1>
+        <TextInput
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className="mb-4"
+        />
+        <TextInput
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className="mb-4"
+        />
+        <Button type="submit" className="w-full">Sign In</Button>
+      </form>
+    </main>
+  );
 }
+
