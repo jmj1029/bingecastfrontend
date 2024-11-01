@@ -3,8 +3,18 @@ import 'flowbite/dist/flowbite.css';
 import { Avatar, Dropdown, Navbar } from 'flowbite-react';
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export function Header() {
+  const router = useRouter();
+
+  // Sign-out function to clear session/token and redirect
+  const handleSignOut = () => {
+    // Clear token from storage if used (e.g., localStorage)
+    localStorage.removeItem("authToken");  // Adjust based on where token is stored
+    router.push("/");  // Redirect to homepage after sign-out
+  };
+
   return (
     <Navbar fluid rounded>
       <Navbar.Brand href="https://flowbite-react.com">
@@ -30,7 +40,7 @@ export function Header() {
             <Link href="/sign-up">Sign Up</Link>
           </Dropdown.Item>
           <Dropdown.Divider />
-          <Dropdown.Item>Sign out</Dropdown.Item>
+          <Dropdown.Item onClick={handleSignOut}>Sign out</Dropdown.Item>  {/* Sign out connected to function */}
         </Dropdown>
         <Navbar.Toggle />
       </div>
@@ -98,5 +108,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-
