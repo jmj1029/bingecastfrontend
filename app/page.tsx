@@ -8,10 +8,8 @@ import { useRouter } from 'next/navigation';
 export function Header() {
   const router = useRouter();
 
-  // Sign-out function to clear session/token and redirect
   const handleSignOut = () => {
-    // Clear token from storage if used (e.g., localStorage)
-    localStorage.removeItem("authToken");  // Adjust based on where token is stored
+    localStorage.removeItem("authToken");  // Clear token or session data
     router.push("/");  // Redirect to homepage after sign-out
   };
 
@@ -34,13 +32,13 @@ export function Header() {
             <span className="block truncate text-sm font-medium">name@flowbite.com</span>
           </Dropdown.Header>
           <Dropdown.Item>
-            <Link href="/sign-in">Sign In</Link>
+            <Link href="/sign-in">Sign In</Link>  {/* Fixed Link usage */}
           </Dropdown.Item>
           <Dropdown.Item>
-            <Link href="/sign-up">Sign Up</Link>
+            <Link href="/sign-up">Sign Up</Link>  {/* Fixed Link usage */}
           </Dropdown.Item>
           <Dropdown.Divider />
-          <Dropdown.Item onClick={handleSignOut}>Sign out</Dropdown.Item>  {/* Sign out connected to function */}
+          <Dropdown.Item onClick={handleSignOut}>Sign out</Dropdown.Item>
         </Dropdown>
         <Navbar.Toggle />
       </div>
@@ -108,3 +106,4 @@ export default function HomePage() {
     </div>
   );
 }
+
