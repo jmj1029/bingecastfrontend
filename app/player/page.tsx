@@ -7,6 +7,8 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { FaDownload, FaHome, FaStepForward, FaStepBackward } from "react-icons/fa";
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
+import Header from '../header';
+import Footer from '../footer';
 
 const CACHE_NAME = 'audio-cache';
 
@@ -117,16 +119,11 @@ export default function PlayerPage() {
 
     return (
         <div className="min-h-screen bg-gray-100 text-gray-800">
-            <header className="bg-blue-600 text-white p-4 flex justify-between items-center">
-                <h1 className="text-3xl font-semibold">BingeCast Player</h1>
-                <Button color="light" onClick={handleBackToHome} className="text-blue-600 bg-white border border-blue-600 hover:bg-blue-100 flex items-center">
-                    <FaHome className="mr-2" /> Home
-                </Button>
-            </header>
+            <Header />
 
             <main className="p-6 flex justify-center items-center">
                 {episodes.length > 0 ? (
-                    <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col justify-between" style={{ width: '600px', height: '400px' }}>
+                    <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col justify-between" style={{ width: '600px', height: '200' }}>
                         <div className="flex-grow">
                             <h2 className="text-2xl font-bold text-blue-600 mb-4">{episodes[currentEpisodeIndex].title}</h2>
                             {audioURL && <AudioPlayer src={audioURL} />}
@@ -147,6 +144,7 @@ export default function PlayerPage() {
                     <p className="text-lg text-gray-600">Loading episodes...</p>
                 )}
             </main>
+            <Footer />
         </div>
     );
 }

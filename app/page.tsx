@@ -3,55 +3,9 @@ import 'flowbite/dist/flowbite.css';
 import { Avatar, Dropdown, Navbar } from 'flowbite-react';
 import React from 'react';
 import { useRouter } from 'next/navigation';
-
-export function Header() {
-  const router = useRouter();
-
-  const handleSignOut = () => {
-    localStorage.removeItem("authToken");
-    router.push("/");
-  };
-
-  const handleSignIn = () => {
-    router.push("/sign-in");
-  };
-
-  const handleSignUp = () => {
-    router.push("/sign-up");
-  };
-
-  return (
-    <Navbar fluid rounded>
-      <Navbar.Brand href="https://flowbite-react.com">
-        <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">BingeCast</span>
-      </Navbar.Brand>
-      <div className="flex md:order-2">
-        <Dropdown
-          arrowIcon={false}
-          inline
-          label={<Avatar alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded />}
-        >
-          <Dropdown.Header>
-            <span className="block text-sm">Bonnie Green</span>
-            <span className="block truncate text-sm font-medium">name@flowbite.com</span>
-          </Dropdown.Header>
-          <Dropdown.Item onClick={handleSignIn}>Sign In</Dropdown.Item>
-          <Dropdown.Item onClick={handleSignUp}>Sign Up</Dropdown.Item>
-          <Dropdown.Divider />
-          <Dropdown.Item onClick={handleSignOut}>Sign out</Dropdown.Item>
-        </Dropdown>
-        <Navbar.Toggle />
-      </div>
-      <Navbar.Collapse>
-        <Navbar.Link href="#" active>Home</Navbar.Link>
-        <Navbar.Link href="#">About</Navbar.Link>
-        <Navbar.Link href="#">Services</Navbar.Link>
-        <Navbar.Link href="#">Contact</Navbar.Link>
-      </Navbar.Collapse>
-    </Navbar>
-  );
-}
+import Header from './header';
+import Footer from './footer';
+import Image from 'next/image'
 
 export default function HomePage() {
   const router = useRouter();
@@ -62,9 +16,17 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen items-center bg-gray-100">
       <Header />
       <section className="bg-blue-600 text-white text-center py-20">
+        <div className="flex justify-center items-center mb-4">
+          <Image
+            src="/2.png"
+            width={1000}
+            height={1000}
+            alt=" "
+          />
+        </div>
         <h1 className="text-5xl font-bold mb-4">Welcome to BingeCast</h1>
         <p className="text-2xl">Your favorite podcasts, all in one place.</p>
       </section>
@@ -101,17 +63,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <footer className="bg-gray-800 text-white py-8">
-        <div className="container mx-auto text-center">
-          <p className="text-xl mb-4">Follow us on social media</p>
-          <div className="flex justify-center space-x-4 mb-6">
-            <a href="#" className="hover:text-blue-400 transition-all">Twitter</a>
-            <a href="#" className="hover:text-blue-400 transition-all">Instagram</a>
-            <a href="#" className="hover:text-blue-400 transition-all">Facebook</a>
-          </div>
-          <p>&copy; 2024 BingeCast. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
