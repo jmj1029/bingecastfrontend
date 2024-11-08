@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import 'flowbite/dist/flowbite.css';
 import { TextInput, Button, Avatar, List } from 'flowbite-react';
 import React, { useState } from 'react';
@@ -7,7 +7,7 @@ import Header from '../header';
 import Footer from '../footer';
 
 export default function Page() {
-    const [rssFeeds, setRssFeeds] = useState([]);
+    const [rssFeeds, setRssFeeds] = useState<string[]>([]); // Specify type as string[]
     const [rssInput, setRssInput] = useState('');
 
     const handleAddFeed = () => {
@@ -34,9 +34,9 @@ export default function Page() {
 
                         {/* Add featured episodes as in your original code */}
                         {rssFeeds.map((feed, index) => (
-                            <a href={`/player?rssfeed=${encodeURIComponent(feed)}&index=10000`}>
-                                <div className="bg-white rounded-lg shadow-lg p-6 transition-all hover:shadow-xl hover:scale-105" >
-                                    <img src="/public/file.svg" alt="Podcast 1" className="mb-4 w-full h-48 object-cover rounded" />
+                            <a key={index} href={`/player?rssfeed=${encodeURIComponent(feed)}&index=10000`}>
+                                <div className="bg-white rounded-lg shadow-lg p-6 transition-all hover:shadow-xl hover:scale-105">
+                                    <img src="/public/file.svg" alt="Podcast" className="mb-4 w-full h-48 object-cover rounded" />
                                     <h3 className="text-2xl font-bold mb-2">Podcast Episode 1</h3>
                                     <p className="text-gray-600">A short description of the first podcast episode.</p>
                                 </div>
@@ -70,7 +70,7 @@ export default function Page() {
                         ))}
 
                         <List.Item className="pb-0 pt-3 sm:pt-4">
-                            <div className="flex items-center space-x-4 ">
+                            <div className="flex items-center space-x-4">
                                 <TextInput
                                     id="rssInput"
                                     type="url"
