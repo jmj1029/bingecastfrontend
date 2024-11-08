@@ -8,16 +8,16 @@ export function Header() {
   const router = useRouter();
 
   const handleSignOut = () => {
-    localStorage.removeItem("authToken");  // Clear token or session data
-    router.push("/");  // Redirect to homepage after sign-out
+    localStorage.removeItem("authToken");
+    router.push("/");
   };
 
   const handleSignIn = () => {
-    router.push("/sign-in");  // Directly navigate to sign-in page
+    router.push("/sign-in");
   };
 
   const handleSignUp = () => {
-    router.push("/sign-up");  // Directly navigate to sign-up page
+    router.push("/sign-up");
   };
 
   return (
@@ -30,9 +30,7 @@ export function Header() {
         <Dropdown
           arrowIcon={false}
           inline
-          label={
-            <Avatar alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded />
-          }
+          label={<Avatar alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded />}
         >
           <Dropdown.Header>
             <span className="block text-sm">Bonnie Green</span>
@@ -46,9 +44,7 @@ export function Header() {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link href="#" active>
-          Home
-        </Navbar.Link>
+        <Navbar.Link href="#" active>Home</Navbar.Link>
         <Navbar.Link href="#">About</Navbar.Link>
         <Navbar.Link href="#">Services</Navbar.Link>
         <Navbar.Link href="#">Contact</Navbar.Link>
@@ -58,43 +54,53 @@ export function Header() {
 }
 
 export default function HomePage() {
+  const router = useRouter();
+  const rssFeedUrl = "https://audioboom.com/channels/5113871.rss";
+
+  const navigateToEpisode = (index: number) => {
+    router.push(`/player?rssfeed=${encodeURIComponent(rssFeedUrl)}&index=${index}`);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       <Header />
-      {/* Hero Section */}
       <section className="bg-blue-600 text-white text-center py-20">
         <h1 className="text-5xl font-bold mb-4">Welcome to BingeCast</h1>
         <p className="text-2xl">Your favorite podcasts, all in one place.</p>
       </section>
 
-      {/* Featured Episodes Section */}
       <section className="py-16 bg-gray-200">
         <div className="container mx-auto text-center">
           <h2 className="text-4xl font-bold mb-10">Featured Episodes</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 px-4">
-            {/* Episode 1 */}
-            <div className="bg-white rounded-lg shadow-lg p-6 transition-all hover:shadow-xl hover:scale-105">
+            <div
+              className="bg-white rounded-lg shadow-lg p-6 transition-all hover:shadow-xl hover:scale-105 cursor-pointer"
+              onClick={() => navigateToEpisode(0)}
+            >
               <img src="/public/file.svg" alt="Podcast 1" className="mb-4 w-full h-48 object-cover rounded" />
               <h3 className="text-2xl font-bold mb-2">Podcast Episode 1</h3>
-              <p className="text-gray-600">A short description of the first podcast episode.</p>
+              <p className="text-gray-600">A short description of the oldest podcast episode.</p>
             </div>
-            {/* Episode 2 */}
-            <div className="bg-white rounded-lg shadow-lg p-6 transition-all hover:shadow-xl hover:scale-105">
+            <div
+              className="bg-white rounded-lg shadow-lg p-6 transition-all hover:shadow-xl hover:scale-105 cursor-pointer"
+              onClick={() => navigateToEpisode(1)}
+            >
               <img src="/public/file.svg" alt="Podcast 2" className="mb-4 w-full h-48 object-cover rounded" />
               <h3 className="text-2xl font-bold mb-2">Podcast Episode 2</h3>
-              <p className="text-gray-600">A short description of the second podcast episode.</p>
+              <p className="text-gray-600">A short description of the second oldest podcast episode.</p>
             </div>
-            {/* Episode 3 */}
-            <div className="bg-white rounded-lg shadow-lg p-6 transition-all hover:shadow-xl hover:scale-105">
+            <div
+              className="bg-white rounded-lg shadow-lg p-6 transition-all hover:shadow-xl hover:scale-105 cursor-pointer"
+              onClick={() => navigateToEpisode(2)}
+            >
               <img src="/public/file.svg" alt="Podcast 3" className="mb-4 w-full h-48 object-cover rounded" />
               <h3 className="text-2xl font-bold mb-2">Podcast Episode 3</h3>
-              <p className="text-gray-600">A short description of the third podcast episode.</p>
+              <p className="text-gray-600">A short description of the third oldest podcast episode.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer Section */}
       <footer className="bg-gray-800 text-white py-8">
         <div className="container mx-auto text-center">
           <p className="text-xl mb-4">Follow us on social media</p>
@@ -109,4 +115,3 @@ export default function HomePage() {
     </div>
   );
 }
-
