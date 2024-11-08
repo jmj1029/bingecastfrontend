@@ -34,7 +34,7 @@ export default function Page() {
 
                         {/* Add featured episodes as in your original code */}
                         {rssFeeds.map((feed, index) => (
-                            <a href={`http://localhost:3000/player?rssfeed=${encodeURIComponent(feed)}&index=10000`}>
+                            <a href={`/player?rssfeed=${encodeURIComponent(feed)}&index=10000`}>
                                 <div className="bg-white rounded-lg shadow-lg p-6 transition-all hover:shadow-xl hover:scale-105" >
                                     <img src="/public/file.svg" alt="Podcast 1" className="mb-4 w-full h-48 object-cover rounded" />
                                     <h3 className="text-2xl font-bold mb-2">Podcast Episode 1</h3>
@@ -63,7 +63,7 @@ export default function Page() {
                                         </p>
                                     </div>
                                     <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                        <Button label="2" href={`http://localhost:3000/player?rssfeed=${encodeURIComponent(feed)}`}>Listen</Button>
+                                        <Button label="2" href={`/player?rssfeed=${encodeURIComponent(feed)}`}>Listen</Button>
                                     </div>
                                 </div>
                             </List.Item>
