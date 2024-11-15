@@ -3,7 +3,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import fetchRSSFeed from '../../lib/rssFetcher';
+import { fetchRSSFeed } from '../../lib/rssFetcher';
 
 interface Podcast {
     title: string;
@@ -19,11 +19,9 @@ const Explore: React.FC = () => {
     useEffect(() => {
         async function fetchPodcasts() {
             const urls = [
-                'https://omny.fm/shows/autosport-podcast/playlists/podcast.rss',
-                'https://rss.com/podcasts/testtotrack/feed.xml',
-                'https://rss.com/podcasts/motorsportthisweek/feed.xml',
-                'https://thefastpod.com/feed.xml',
-                'https://rss.com/podcasts/motorsportrepublica/feed.xml'
+                'https://jockounderground.com/rss',  // Working link
+                'https://ferriss.show/rss',  // Working link
+                // Add any additional links here that were functional
             ];
 
             const fetchedPodcasts = await Promise.all(
@@ -63,6 +61,7 @@ const Explore: React.FC = () => {
 };
 
 export default Explore;
+
 
 
 
