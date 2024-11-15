@@ -1,5 +1,8 @@
 // app/explore/page.tsx
 
+"use client";
+
+
 import React, { useEffect, useState } from 'react';
 import { fetchRSSFeed } from '../../lib/rssFetcher';
 
