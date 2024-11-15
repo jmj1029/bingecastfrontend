@@ -41,12 +41,20 @@ const Explore: React.FC = () => {
           <div key={index} className="bg-white p-4 rounded shadow-md">
             <h2 className="text-2xl font-semibold">{feed.title}</h2>
             <p>{feed.description}</p>
-            <ul className="mt-4 space-y-2">
+            <ul className="mt-4 space-y-4">
               {feed.map((item: any, idx: number) => (
-                <li key={idx}>
+                <li key={idx} className="mb-4">
                   <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
                     {item.title}
                   </a>
+                  {item.audioUrl && (
+                    <div className="mt-2">
+                      <audio controls>
+                        <source src={item.audioUrl} type="audio/mpeg" />
+                        Your browser does not support the audio element.
+                      </audio>
+                    </div>
+                  )}
                 </li>
               ))}
             </ul>
