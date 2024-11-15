@@ -9,7 +9,7 @@ const Explore: React.FC = () => {
   const [podcasts, setPodcasts] = useState<any[]>([]);
 
   const rssUrls = [
-    "https://feeds.megaphone.fm/MTP7792538678",
+    "https://player.fm/series/3555033",
     "https://audioboom.com/channels/4908152.rss",
     "https://feeds.megaphone.fm/ESP2802829053",
     "https://feeds.megaphone.fm/GNM9243189155",
