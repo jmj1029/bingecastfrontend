@@ -8,16 +8,16 @@ import { fetchRSSFeed } from '../../lib/rssFetcher';
 const Explore: React.FC = () => {
   const [podcasts, setPodcasts] = useState<any[]>([]);
   const rssUrls = [
-    'https://rss.art19.com/the-daily',
-    'https://feeds.megaphone.fm/stuffyoushouldknow',
-    'https://feeds.npr.org/510289/podcast.xml',
-    'https://feeds.npr.org/510298/podcast.xml',
-    'https://feeds.megaphone.fm/sciencevs',
-    'https://feeds.megaphone.fm/GLT5194725738',
-    'https://feeds.npr.org/510313/podcast.xml',
-    'https://feeds.megaphone.fm/revolutions',
-    'https://rss.art19.com/tim-ferriss-show',
-    'https://feeds.megaphone.fm/armchairexpert',
+    'https://feeds.megaphone.fm/ADV9962915674',  // The Smoking Tire (Cars)
+    'https://feeds.megaphone.fm/carcast',        // CarCast (Cars)
+    'https://rss.art19.com/no-jumper',           // No Jumper (Hip-Hop Music & Culture)
+    'https://feeds.megaphone.fm/drinkchamps',    // Drink Champs (Hip-Hop)
+    'https://feeds.megaphone.fm/rapradar',       // Rap Radar Podcast (Hip-Hop)
+    'https://feeds.megaphone.fm/mindpump',       // Mind Pump: Raw Fitness Truth (Lifting & Fitness)
+    'https://lewishowes.libsyn.com/rss',         // The School of Greatness (Self-Improvement & Fitness)
+    'https://feeds.megaphone.fm/barbend',        // BarBend Podcast (Strength & Fitness)
+    'https://feeds.buzzsprout.com/24829.rss',    // Power Project Podcast (Lifting & Fitness)
+    'https://strengthrunning.libsyn.com/rss',    // The Strength Running Podcast (Fitness & Running)
   ];
 
   useEffect(() => {
@@ -35,29 +35,23 @@ const Explore: React.FC = () => {
 
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-bold mb-4">Explore Podcasts</h1>
-      <div className="space-y-8">
+      <h1 className="text-3xl font-bold mb-8 text-center">Explore</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {podcasts.map((feed, index) => (
           <div key={index} className="bg-white p-4 rounded shadow-md">
-            <h2 className="text-2xl font-semibold">{feed.title}</h2>
-            <p>{feed.description}</p>
-            <ul className="mt-4 space-y-4">
-              {feed.map((item: any, idx: number) => (
-                <li key={idx} className="mb-4">
-                  <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                    {item.title}
-                  </a>
-                  {item.audioUrl && (
-                    <div className="mt-2">
-                      <audio controls>
-                        <source src={item.audioUrl} type="audio/mpeg" />
-                        Your browser does not support the audio element.
-                      </audio>
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
+            <a href={feed[0]?.link} target="_blank" rel="noopener noreferrer">
+              {feed[0]?.image ? (
+                <img src={feed[0].image} alt={feed.title} className="w-full h-40 object-cover rounded-t" />
+              ) : (
+                <div className="w-full h-40 bg-gray-200 flex items-center justify-center rounded-t">
+                  <span className="text-gray-500">No Image Available</span>
+                </div>
+              )}
+            </a>
+            <div className="p-4">
+              <h2 className="text-xl font-semibold">{feed[0]?.title}</h2>
+              <p className="text-gray-600 mt-2">{feed[0]?.description || "No description available"}</p>
+            </div>
           </div>
         ))}
       </div>
