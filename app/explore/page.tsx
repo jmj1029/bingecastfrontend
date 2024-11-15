@@ -9,10 +9,19 @@ import { fetchRSSFeed } from '../../lib/rssFetcher';
 const Explore: React.FC = () => {
   const [podcasts, setPodcasts] = useState<any[]>([]);
   const rssUrls = [
-    // Add your RSS URLs here
-    'https://example.com/rss1',
-    'https://example.com/rss2',
-    // Add more URLs as needed
+    const rssUrls = [
+        'https://rss.art19.com/the-daily',
+        'https://feeds.megaphone.fm/stuffyoushouldknow',
+        'https://feeds.npr.org/510289/podcast.xml',
+        'https://feeds.npr.org/510298/podcast.xml',
+        'https://feeds.megaphone.fm/sciencevs',
+        'https://feeds.megaphone.fm/GLT5194725738',
+        'https://feeds.npr.org/510313/podcast.xml',
+        'https://feeds.megaphone.fm/revolutions',
+        'https://rss.art19.com/tim-ferriss-show',
+        'https://feeds.megaphone.fm/armchairexpert',
+      ];
+      
   ];
 
   useEffect(() => {
