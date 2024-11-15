@@ -12,24 +12,23 @@ import Footer from '../footer';
 
 const CACHE_NAME = 'audio-cache';
 
-interface Episode {
-    title: string | null;
-    url: string | null;
-}
-
-// Fetch episodes from the RSS feed using the original proxy
-async function fetchEpisodes(rssFeedUrl: string): Promise<Episode[]> {
+// Fetch episodes from the RSS feed using the original proxy that worked for you
+async function fetchEpisodes(rssFeedUrl: string): Promise<{ title: string | null; url: string | null }[]> {
     const proxyUrl = `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(rssFeedUrl)}`;
 
     try {
         const response = await fetch(proxyUrl);
-        if (!response.ok) throw new Error("Failed to fetch RSS feed through proxy");
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch RSS feed through proxy");
+        }
 
         const data = await response.text();
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(data, "text/xml");
         const items = Array.from(xmlDoc.querySelectorAll("item"));
 
+        // Reverse the episodes so that the oldest episode is at index 0
         return items.reverse().map(item => ({
             title: item.querySelector("title")?.textContent || null,
             url: item.querySelector("enclosure")?.getAttribute("url") || null,
@@ -65,11 +64,8 @@ export default function PlayerPage() {
     const initialIndex = indexParam ? parseInt(indexParam, 10) : 0;
     const router = useRouter();
 
-    const token = localStorage.getItem("authToken");  // Retrieve the token from localStorage
-    const [episodes, setEpisodes] = useState<Episode[]>([]);
-    const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState<number>(
-        JSON.parse(localStorage.getItem(`${token}_currentEpisodeIndex`) || '0') || initialIndex
-    );
+    const [episodes, setEpisodes] = useState<{ title: string | null; url: string | null }[]>([]);
+    const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(initialIndex);
     const [audioURL, setAudioURL] = useState<string | null>(null);
 
     useEffect(() => {
@@ -79,33 +75,17 @@ export default function PlayerPage() {
             try {
                 const episodeList = await fetchEpisodes(rssfeed);
                 setEpisodes(episodeList);
-                const validIndex = Math.min(currentEpisodeIndex, episodeList.length - 1);
+
+                const validIndex = Math.min(initialIndex, episodeList.length - 1);
                 setCurrentEpisodeIndex(validIndex);
                 const cachedUrl = await getAudioUrl(episodeList[validIndex].url || '');
-                setAudioURL(cachedUrl || '');
+                setAudioURL(cachedUrl);
             } catch (error) {
                 console.error("Error fetching RSS feed:", error);
             }
         }
         loadEpisodes();
-    }, [rssfeed]);
-
-    useEffect(() => {
-        // Sync current episode index with localStorage using token as part of the key
-        localStorage.setItem(`${token}_currentEpisodeIndex`, JSON.stringify(currentEpisodeIndex));
-
-        // Listen for changes in localStorage from other tabs
-        const syncTabs = (event: StorageEvent) => {
-            if (event.key === `${token}_currentEpisodeIndex` && event.newValue) {
-                setCurrentEpisodeIndex(JSON.parse(event.newValue));
-            }
-        };
-        window.addEventListener('storage', syncTabs);
-
-        return () => {
-            window.removeEventListener('storage', syncTabs);
-        };
-    }, [currentEpisodeIndex]);
+    }, [rssfeed, initialIndex]);
 
     const handleDownload = async () => {
         const currentEpisode = episodes[currentEpisodeIndex];
@@ -120,7 +100,7 @@ export default function PlayerPage() {
             const nextIndex = currentEpisodeIndex + 1;
             setCurrentEpisodeIndex(nextIndex);
             const cachedUrl = await getAudioUrl(episodes[nextIndex].url || '');
-            setAudioURL(cachedUrl || '');
+            setAudioURL(cachedUrl);
         }
     };
 
@@ -129,7 +109,7 @@ export default function PlayerPage() {
             const prevIndex = currentEpisodeIndex - 1;
             setCurrentEpisodeIndex(prevIndex);
             const cachedUrl = await getAudioUrl(episodes[prevIndex].url || '');
-            setAudioURL(cachedUrl || '');
+            setAudioURL(cachedUrl);
         }
     };
 
@@ -145,7 +125,7 @@ export default function PlayerPage() {
                 {episodes.length > 0 ? (
                     <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col justify-between" style={{ width: '600px', height: '200' }}>
                         <div className="flex-grow">
-                            <h2 className="text-2xl font-bold text-blue-600 mb-4">{episodes[currentEpisodeIndex]?.title}</h2>
+                            <h2 className="text-2xl font-bold text-blue-600 mb-4">{episodes[currentEpisodeIndex].title}</h2>
                             {audioURL && <AudioPlayer src={audioURL} />}
                         </div>
                         <div className="flex justify-between mt-4">
