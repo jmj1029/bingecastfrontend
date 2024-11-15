@@ -9,16 +9,19 @@ const Explore: React.FC = () => {
   const [podcasts, setPodcasts] = useState<any[]>([]);
 
   const rssUrls = [
-    "https://player.fm/series/3555033",
-    "https://audioboom.com/channels/4908152.rss",
-    "https://feeds.megaphone.fm/ESP2802829053",
-    "https://feeds.megaphone.fm/GNM9243189155",
-    "https://feeds.simplecast.com/0XPp3AYJ",
-    "https://feeds.simplecast.com/wfhsSN3j",
-    "https://podcast.dinnerwithracers.com/rss",
-    "https://audioboom.com/channels/5040608.rss",
-    "https://rss.art19.com/the-racing-writers-podcast",
-    "https://rss.art19.com/nascar-on-nbc-podcast"
+    const rssUrls = [
+      'https://omny.fm/shows/autosport-podcast/playlists/podcast.rss',
+      'https://rss.com/podcasts/testtotrack/feed.xml',
+      'https://rss.com/podcasts/motorsportthisweek/feed.xml',
+      'https://thefastpod.com/feed.xml',
+      'https://rss.com/podcasts/motorsportrepublica/feed.xml',
+      'https://podnews.net/podcast/i5saj/episodes.rss',
+      'https://podcasts.feedspot.com/rally_podcasts/feed.xml',
+      'https://www.podchaser.com/categories/motorsport-category/podcasts/feed.xml',
+      'https://www.motorsportmagazine.com/articles/category/podcast/feed.xml',
+      'https://www.dirtymomedia.com/dalejrdownload/feed.xml'
+  ];
+  
   ];
 
   useEffect(() => {
