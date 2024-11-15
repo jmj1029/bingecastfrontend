@@ -8,18 +8,16 @@ import { fetchRSSFeed } from '../../lib/rssFetcher';
 const Explore: React.FC = () => {
   const [podcasts, setPodcasts] = useState<any[]>([]);
   const rssUrls = [
-    'https://joeroganexp.jremp3.com/',
-    'https://feeds.megaphone.fm/carcast',
-    'https://feeds.megaphone.fm/mindpump',
-    'https://rss.art19.com/tim-ferriss-show',
-    'https://feeds.megaphone.fm/GLT5194725738',
-    'https://feeds.npr.org/510313/podcast.xml',
-    'https://feeds.wnyc.org/radiolab',
-    'https://dailystoic.libsyn.com/rss',
-    'https://feeds.megaphone.fm/sciencevs',
-    'https://theartofmanliness.libsyn.com/rss',
+    'https://feeds.megaphone.fm/carcast',  // CarCast (Cars)
+    'https://feeds.megaphone.fm/mindpump',  // Mind Pump (Fitness & Health)
+    'https://rss.art19.com/tim-ferriss-show',  // The Tim Ferriss Show
+    'https://feeds.megaphone.fm/GLT5194725738',  // Freakonomics Radio
+    'https://feeds.npr.org/510313/podcast.xml',  // How I Built This
+    'https://feeds.wnyc.org/radiolab',  // Radiolab
+    'https://dailystoic.libsyn.com/rss',  // The Daily Stoic
+    'https://feeds.megaphone.fm/sciencevs',  // Science Vs
+    'https://theartofmanliness.libsyn.com/rss',  // The Art of Manliness
   ];
-  
 
   useEffect(() => {
     const fetchPodcasts = async () => {
@@ -34,7 +32,7 @@ const Explore: React.FC = () => {
             }
           })
         );
-        setPodcasts(results.filter(Boolean)); // Filter out any null results
+        setPodcasts(results.filter(feed => feed !== null)); // Filter out any null results
       } catch (error) {
         console.error('Error fetching podcasts:', error);
       }
