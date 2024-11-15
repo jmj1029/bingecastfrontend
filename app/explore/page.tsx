@@ -2,100 +2,75 @@
 
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { fetchRSSFeed } from '../../lib/rssFetcher';
+import React, { useEffect, useState } from "react";
+import { fetchRSSFeed } from "../../lib/rssFetcher";
 
 const Explore: React.FC = () => {
   const [podcasts, setPodcasts] = useState<any[]>([]);
+
   const rssUrls = [
-    'https://feeds.megaphone.fm/carcast',
-    'https://feeds.megaphone.fm/mindpump',
-    'https://rss.art19.com/tim-ferriss-show',
-    'https://feeds.megaphone.fm/GLT5194725738',
-    'https://feeds.npr.org/510313/podcast.xml',
-    'https://feeds.wnyc.org/radiolab',
-    'https://dailystoic.libsyn.com/rss',
-    'https://feeds.megaphone.fm/sciencevs',
-    'https://theartofmanliness.libsyn.com/rss',
+    "https://feeds.megaphone.fm/MTP7792538678",
+    "https://audioboom.com/channels/4908152.rss",
+    "https://feeds.megaphone.fm/ESP2802829053",
+    "https://feeds.megaphone.fm/GNM9243189155",
+    "https://feeds.simplecast.com/0XPp3AYJ",
+    "https://feeds.simplecast.com/wfhsSN3j",
+    "https://podcast.dinnerwithracers.com/rss",
+    "https://audioboom.com/channels/5040608.rss",
+    "https://rss.art19.com/the-racing-writers-podcast",
+    "https://rss.art19.com/nascar-on-nbc-podcast"
   ];
 
   useEffect(() => {
     const fetchPodcasts = async () => {
-      try {
-        const results = await Promise.all(
-          rssUrls.map(async (url) => {
-            try {
-              return await fetchRSSFeed(url);
-            } catch (error) {
-              console.error(`Error fetching RSS feed from ${url}:`, error);
-              return null; // Skip this URL if it fails
-            }
-          })
-        );
-        setPodcasts(results.filter(feed => feed !== null));
-      } catch (error) {
-        console.error('Error fetching podcasts:', error);
-      }
+      const allPodcasts = await Promise.all(
+        rssUrls.map(async (url) => {
+          try {
+            const data = await fetchRSSFeed(url);
+            return data;
+          } catch (error) {
+            console.error(`Error fetching RSS feed from ${url}:`, error.message || error);
+            return null;
+          }
+        })
+      );
+      setPodcasts(allPodcasts.filter(Boolean)); // Filter out any null responses
     };
 
     fetchPodcasts();
   }, []);
 
   return (
-    <div className="p-8 bg-blue-50 min-h-screen">
-      <h1 className="text-3xl font-bold mb-8 text-center text-blue-700">Explore</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        {podcasts.map((feed, index) => (
-          <PodcastCard key={index} feed={feed[0]} />
+    <div className="bg-blue-50 min-h-screen p-8">
+      <h1 className="text-3xl font-bold text-blue-700 mb-6 text-center">Explore</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {podcasts.map((podcast, index) => (
+          <div key={index} className="bg-white p-4 rounded-lg shadow-md">
+            {podcast.image ? (
+              <img src={podcast.image} alt={podcast.title} className="w-full h-48 object-cover rounded-md mb-4" />
+            ) : (
+              <div className="w-full h-48 bg-gray-300 flex items-center justify-center text-gray-500 rounded-md mb-4">
+                No Image Available
+              </div>
+            )}
+            <h2 className="text-lg font-semibold text-blue-600 mb-2">{podcast.title}</h2>
+            <p className="text-gray-700 mb-4">
+              {podcast.description?.slice(0, 100)}...
+              <span className="text-blue-500 cursor-pointer"> Read More</span>
+            </p>
+            {podcast.audio && (
+              <audio controls className="w-full">
+                <source src={podcast.audio} type="audio/mpeg" />
+                Your browser does not support the audio element.
+              </audio>
+            )}
+          </div>
         ))}
       </div>
     </div>
   );
 };
 
-const PodcastCard = ({ feed }) => {
-  const [showFullDescription, setShowFullDescription] = useState(false);
-
-  const toggleDescription = () => {
-    setShowFullDescription(!showFullDescription);
-  };
-
-  return (
-    <div className="bg-white p-4 rounded shadow-md border border-blue-200">
-      <a href={feed.link} target="_blank" rel="noopener noreferrer">
-        {feed.image ? (
-          <img src={feed.image} alt={feed.title} className="w-full h-40 object-cover rounded-t" />
-        ) : (
-          <div className="w-full h-40 bg-gray-200 flex items-center justify-center rounded-t">
-            <span className="text-gray-500">No Image Available</span>
-          </div>
-        )}
-      </a>
-      <div className="p-4">
-        <h2 className="text-xl font-semibold text-blue-600">{feed.title}</h2>
-        <p className="text-gray-700 mt-2">
-          {showFullDescription
-            ? feed.description
-            : `${feed.description?.slice(0, 100)}... `}
-          <button
-            onClick={toggleDescription}
-            className="text-blue-500 hover:text-blue-700 focus:outline-none"
-          >
-            {showFullDescription ? 'Show Less' : 'Read More'}
-          </button>
-        </p>
-        {feed.audioUrl && (
-          <div className="mt-2">
-            <audio controls>
-              <source src={feed.audioUrl} type="audio/mpeg" />
-              Your browser does not support the audio element.
-            </audio>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
 export default Explore;
+
 
