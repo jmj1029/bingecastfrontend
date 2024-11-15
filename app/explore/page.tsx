@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from 'react';
 import fetchRSSFeed from '../../lib/rssFetcher';
 
@@ -97,6 +99,7 @@ const Explore: React.FC = () => {
 };
 
 export default Explore;
+
 
 
 
