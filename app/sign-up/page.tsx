@@ -7,7 +7,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleSignUp = async (event) => {
+  const handleSignUp = async (event: any) => {
     event.preventDefault();
     // Handle sign-up logic here
     if (password === confirmPassword) {

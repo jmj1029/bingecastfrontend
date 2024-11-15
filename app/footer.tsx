@@ -1,7 +1,5 @@
 import 'flowbite/dist/flowbite.css';
-import { Avatar, Dropdown, Navbar } from 'flowbite-react';
 import React from 'react';
-import { useRouter } from 'next/navigation';
 
 
 export default function Footer(){
