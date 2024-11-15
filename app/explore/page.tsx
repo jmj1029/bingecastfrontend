@@ -8,23 +8,32 @@ import { fetchRSSFeed } from '../../lib/rssFetcher';
 const Explore: React.FC = () => {
   const [podcasts, setPodcasts] = useState<any[]>([]);
   const rssUrls = [
-    'https://feeds.megaphone.fm/ADV9962915674',  // The Smoking Tire (Cars)
-    'https://feeds.megaphone.fm/carcast',        // CarCast (Cars)
-    'https://rss.art19.com/no-jumper',           // No Jumper (Hip-Hop Music & Culture)
-    'https://feeds.megaphone.fm/drinkchamps',    // Drink Champs (Hip-Hop)
-    'https://feeds.megaphone.fm/rapradar',       // Rap Radar Podcast (Hip-Hop)
-    'https://feeds.megaphone.fm/mindpump',       // Mind Pump: Raw Fitness Truth (Lifting & Fitness)
-    'https://lewishowes.libsyn.com/rss',         // The School of Greatness (Self-Improvement & Fitness)
-    'https://feeds.megaphone.fm/barbend',        // BarBend Podcast (Strength & Fitness)
-    'https://feeds.buzzsprout.com/24829.rss',    // Power Project Podcast (Lifting & Fitness)
-    'https://strengthrunning.libsyn.com/rss',    // The Strength Running Podcast (Fitness & Running)
+    'https://feeds.megaphone.fm/ADV9962915674',
+    'https://feeds.megaphone.fm/carcast',
+    'https://rss.art19.com/no-jumper',
+    'https://feeds.megaphone.fm/drinkchamps',
+    'https://feeds.megaphone.fm/rapradar',
+    'https://feeds.megaphone.fm/mindpump',
+    'https://legion.libsyn.com/rss',
+    'https://roadandtrack.libsyn.com/rss',
+    'https://rss.art19.com/modern-drummer',
+    'https://feeds.buzzsprout.com/789230.rss',
   ];
 
   useEffect(() => {
     const fetchPodcasts = async () => {
       try {
-        const results = await Promise.all(rssUrls.map(url => fetchRSSFeed(url)));
-        setPodcasts(results);
+        const results = await Promise.all(
+          rssUrls.map(async (url) => {
+            try {
+              return await fetchRSSFeed(url);
+            } catch (error) {
+              console.error(`Error fetching RSS feed from ${url}:`, error);
+              return null; // Skip this URL if it fails
+            }
+          })
+        );
+        setPodcasts(results.filter(Boolean)); // Filter out any null results
       } catch (error) {
         console.error('Error fetching podcasts:', error);
       }
@@ -51,6 +60,14 @@ const Explore: React.FC = () => {
             <div className="p-4">
               <h2 className="text-xl font-semibold">{feed[0]?.title}</h2>
               <p className="text-gray-600 mt-2">{feed[0]?.description || "No description available"}</p>
+              {feed[0]?.audioUrl && (
+                <div className="mt-2">
+                  <audio controls>
+                    <source src={feed[0].audioUrl} type="audio/mpeg" />
+                    Your browser does not support the audio element.
+                  </audio>
+                </div>
+              )}
             </div>
           </div>
         ))}
