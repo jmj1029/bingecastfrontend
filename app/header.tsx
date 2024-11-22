@@ -1,3 +1,4 @@
+"use client";
 import 'flowbite/dist/flowbite.css';
 import { Avatar, Dropdown, Navbar } from 'flowbite-react';
 import React from 'react';

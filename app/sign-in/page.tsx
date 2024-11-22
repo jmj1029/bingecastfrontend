@@ -8,7 +8,7 @@ export default function SignInPage() {
   const [token, setToken] = useState(null);
   const [error, setError] = useState(null);
 
-  const handleSignIn = async (event) => {
+  const handleSignIn = async (event: any) => {
     event.preventDefault();
 
     try {
@@ -33,7 +33,7 @@ export default function SignInPage() {
         setError(null);  // Clear any previous errors
       }
     } catch (error) {
-      setError("Invalid email or password. Please try again.");
+      //setError("Invalid email or password. Please try again.");
     }
   };
 

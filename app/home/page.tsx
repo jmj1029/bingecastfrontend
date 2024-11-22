@@ -63,7 +63,8 @@ export default function Page() {
                                         </p>
                                     </div>
                                     <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                        <Button label="2" href={`/player?rssfeed=${encodeURIComponent(feed)}`}>Listen</Button>
+                                        <Button label="2" href={`/player?rssfeed=${encodeURIComponent(feed)}&index=10000`}>News Mode</Button>
+                                        <Button label="2" href={`/player?rssfeed=${encodeURIComponent(feed)}`}>Stack Mode</Button>
                                     </div>
                                 </div>
                             </List.Item>
