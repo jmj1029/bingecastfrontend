@@ -1,7 +1,7 @@
 "use client";
 import 'flowbite/dist/flowbite.css';
 import { Avatar, Dropdown, Navbar } from 'flowbite-react';
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useRouter } from 'next/navigation';
 import Header from './header';
 import Footer from './footer';
@@ -13,6 +13,28 @@ export default function HomePage() {
 
   const navigateToEpisode = (index: number) => {
     router.push(`/player?rssfeed=${encodeURIComponent(rssFeedUrl)}&index=${index}`);
+  };
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const isDarkMode = document.documentElement.classList.contains('dark');
+    if (isDarkMode) {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    }
   };
 
   return (
@@ -31,9 +53,10 @@ export default function HomePage() {
         <p className="text-2xl">Your favorite podcasts, all in one place.</p>
       </section>
 
-      <section className="py-16 bg-gray-200">
+      <section className="py-16 ">
         <div className="container mx-auto text-center">
           <h2 className="text-4xl font-bold mb-10">Featured Episodes</h2>
+          
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 px-4">
             <div
               className="bg-white rounded-lg shadow-lg p-6 transition-all hover:shadow-xl hover:scale-105 cursor-pointer"
