@@ -1,3 +1,4 @@
+import Toast from "./components/atoms/Toast";
 import QueryContext from "./contexts/QueryContext";
 import "./globals.css";
 import { Inter } from "next/font/google";
@@ -17,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <Toast />
         <QueryContext>
           <div className="min-h-full">
             <header className="border-b border-gray-200 bg-white">
