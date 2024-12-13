@@ -1,5 +1,7 @@
 // app/explore/page.tsx
 
+// Updated Explore Page with Podcast Cards and Improved Data Handling
+
 "use client";
 
 import React, { useEffect, useState } from 'react';
@@ -38,7 +40,7 @@ const Explore: React.FC = () => {
           })
         );
         setPodcasts(allPodcasts.filter(feed => feed !== null));
-        console.log(allPodcasts); // Debug log to verify data
+        console.log(allPodcasts); 
       } catch (error) {
         console.error('Error fetching podcasts:', error);
       } finally {
@@ -94,4 +96,5 @@ const Explore: React.FC = () => {
 };
 
 export default Explore;
+
 
