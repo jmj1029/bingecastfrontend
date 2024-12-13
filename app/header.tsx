@@ -83,6 +83,7 @@ export default function Header() {
             <Navbar.Collapse>
                 <Navbar.Link href="/" active>Home</Navbar.Link>
                 <Navbar.Link href="/home">User Home</Navbar.Link>
+                <Navbar.Link href="/explore">Explore</Navbar.Link>
             </Navbar.Collapse>
         </Navbar>
     );
