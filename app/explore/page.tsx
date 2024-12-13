@@ -6,9 +6,12 @@ import React, { useEffect, useState } from 'react';
 import { fetchRSSFeed } from '../../lib/rssFetcher';
 import Header from '../header';
 import Footer from '../footer';
+import { useRouter } from 'next/navigation';
 
 const Explore: React.FC = () => {
   const [podcasts, setPodcasts] = useState<any[]>([]);
+  const router = useRouter();
+
   const rssUrls = [
     'https://feeds.megaphone.fm/DFT5818254302',
     'https://feeds.megaphone.fm/BLU1007324930',
@@ -29,7 +32,7 @@ const Explore: React.FC = () => {
               return await fetchRSSFeed(url);
             } catch (error) {
               console.error(`Error fetching RSS feed from ${url}:`, error);
-              return null; 
+              return null;
             }
           })
         );
@@ -43,8 +46,7 @@ const Explore: React.FC = () => {
   }, []);
 
   const handleCardClick = (podcast: any) => {
-    
-    alert(`Playing: ${podcast.title}`); 
+    router.push(`/player?title=${encodeURIComponent(podcast.title)}&audioUrl=${encodeURIComponent(podcast.audioUrl)}`);
   };
 
   return (
