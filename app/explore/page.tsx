@@ -4,6 +4,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { fetchRSSFeed } from '../../lib/rssFetcher';
+import Header from '../header';
+import Footer from '../footer';
 
 const Explore: React.FC = () => {
   const [podcasts, setPodcasts] = useState<any[]>([]);
@@ -27,7 +29,7 @@ const Explore: React.FC = () => {
               return await fetchRSSFeed(url);
             } catch (error) {
               console.error(`Error fetching RSS feed from ${url}:`, error);
-              return null; // Skip this URL if it fails
+              return null; 
             }
           })
         );
@@ -36,19 +38,19 @@ const Explore: React.FC = () => {
         console.error('Error fetching podcasts:', error);
       }
     };
-  
+
     fetchData();
   }, []);
-  
 
   const handleCardClick = (podcast: any) => {
-    // Logic to bring up a player or navigate to a detailed player view
-    alert(`Playing: ${podcast.title}`); // Replace with actual player logic
+    
+    alert(`Playing: ${podcast.title}`); 
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto p-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
+      <Header />
+      <main className="flex-grow max-w-7xl mx-auto p-4">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Explore Podcasts</h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">Discover a variety of engaging podcasts tailored to your interests.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
@@ -73,7 +75,8 @@ const Explore: React.FC = () => {
             </div>
           ))}
         </div>
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 };
