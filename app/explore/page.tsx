@@ -1,4 +1,6 @@
 
+
+
 "use client";
 
 import React, { useEffect, useState } from 'react';
@@ -58,8 +60,12 @@ const Explore: React.FC = () => {
     router.push(`/player?title=${encodeURIComponent(title)}&audioUrl=${encodeURIComponent(audioUrl)}`);
   };
 
+  const truncateText = (text: string, maxLength: number) => {
+    return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+  };
+
   if (typeof window === "undefined") {
-    return null; 
+    return null; // Fallback for SSR to prevent server-side rendering issues
   }
 
   return (
@@ -84,14 +90,8 @@ const Explore: React.FC = () => {
                   {podcast.title || "Untitled Podcast"}
                 </h2>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                  {podcast.description || 'No description available.'}
+                  {truncateText(podcast.description || 'No description available.', 100)}
                 </p>
-                {podcast.audioUrl && (
-                  <audio controls className="w-full mt-2">
-                    <source src={podcast.audioUrl} type="audio/mpeg" />
-                    Your browser does not support the audio element.
-                  </audio>
-                )}
               </div>
             ))}
           </div>
@@ -103,6 +103,7 @@ const Explore: React.FC = () => {
 };
 
 export default Explore;
+
 
 
 
