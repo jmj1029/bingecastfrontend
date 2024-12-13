@@ -1,6 +1,3 @@
-// app/explore/page.tsx
-
-// Updated Explore Page with Podcast Cards and Improved Data Handling
 
 "use client";
 
@@ -29,18 +26,22 @@ const Explore: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log("Starting RSS fetch...");
         const allPodcasts = await Promise.all(
           rssUrls.map(async (url) => {
             try {
-              return await fetchRSSFeed(url);
+              console.log("Fetching from URL:", url);
+              const result = await fetchRSSFeed(url);
+              console.log("Fetched data:", result);
+              return result;
             } catch (error) {
               console.error(`Error fetching RSS feed from ${url}:`, error);
               return null;
             }
           })
         );
+        console.log("Final fetched podcasts:", allPodcasts);
         setPodcasts(allPodcasts.filter(feed => feed !== null));
-        console.log(allPodcasts); 
       } catch (error) {
         console.error('Error fetching podcasts:', error);
       } finally {
@@ -57,6 +58,10 @@ const Explore: React.FC = () => {
     router.push(`/player?title=${encodeURIComponent(title)}&audioUrl=${encodeURIComponent(audioUrl)}`);
   };
 
+  if (typeof window === "undefined") {
+    return null; 
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
       <Header />
@@ -65,6 +70,8 @@ const Explore: React.FC = () => {
         <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">Discover a variety of engaging podcasts tailored to your interests.</p>
         {loading ? (
           <p className="text-center text-gray-500 dark:text-gray-400">Loading episodes...</p>
+        ) : podcasts.length === 0 ? (
+          <p className="text-center text-gray-500 dark:text-gray-400">No podcasts available. Please try again later.</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
             {podcasts.map((podcast, index) => (
@@ -96,5 +103,6 @@ const Explore: React.FC = () => {
 };
 
 export default Explore;
+
 
 
