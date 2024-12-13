@@ -1,5 +1,7 @@
 // app/explore/page.tsx
 
+// Updated Explore Page with Podcast Cards and Improved Data Handling
+
 "use client";
 
 import React, { useEffect, useState } from 'react';
@@ -37,6 +39,7 @@ const Explore: React.FC = () => {
           })
         );
         setPodcasts(allPodcasts.filter(feed => feed !== null));
+        console.log(allPodcasts); // Debug log to verify data
       } catch (error) {
         console.error('Error fetching podcasts:', error);
       }
@@ -46,7 +49,9 @@ const Explore: React.FC = () => {
   }, []);
 
   const handleCardClick = (podcast: any) => {
-    router.push(`/player?title=${encodeURIComponent(podcast.title)}&audioUrl=${encodeURIComponent(podcast.audioUrl)}`);
+    const title = podcast.title || "Unknown Title";
+    const audioUrl = podcast.audioUrl || "";
+    router.push(`/player?title=${encodeURIComponent(title)}&audioUrl=${encodeURIComponent(audioUrl)}`);
   };
 
   return (
@@ -63,7 +68,7 @@ const Explore: React.FC = () => {
               onClick={() => handleCardClick(podcast)}
             >
               <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
-                {podcast.title}
+                {podcast.title || "Untitled Podcast"}
               </h2>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                 {podcast.description || 'No description available.'}
@@ -84,9 +89,3 @@ const Explore: React.FC = () => {
 };
 
 export default Explore;
-
-
-
-
-
-
