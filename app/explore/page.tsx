@@ -8,15 +8,14 @@ import { fetchRSSFeed } from '../../lib/rssFetcher';
 const Explore: React.FC = () => {
   const [podcasts, setPodcasts] = useState<any[]>([]);
   const rssUrls = [
-    'https://feeds.megaphone.fm/carcast',
-    'https://feeds.megaphone.fm/mindpump',
-    'https://rss.art19.com/tim-ferriss-show',
-    'https://feeds.megaphone.fm/GLT5194725738',
-    'https://feeds.npr.org/510313/podcast.xml',
-    'https://feeds.wnyc.org/radiolab',
-    'https://dailystoic.libsyn.com/rss',
-    'https://feeds.megaphone.fm/sciencevs',
-    'https://theartofmanliness.libsyn.com/rss',
+    'https://feeds.megaphone.fm/DFT5818254302',
+    'https://feeds.megaphone.fm/BLU1007324930',
+    'https://audioboom.com/channels/4991699.rss',
+    'https://audioboom.com/channels/5002007.rss',
+    'https://audioboom.com/channels/4817854.rss',
+    'https://feeds.simplecast.com/_Dn4Vj5Rs',
+    'https://feeds.megaphone.fm/morning-kombat',
+    'https://theartofmanliness.libsyn.com/rss'
   ];
 
   useEffect(() => {
