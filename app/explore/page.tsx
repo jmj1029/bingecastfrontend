@@ -20,12 +20,26 @@ const Explore: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const allPodcasts = await Promise.all(rssUrls.map(url => fetchRSSFeed(url)));
-      setPodcasts(allPodcasts);
+      try {
+        const allPodcasts = await Promise.all(
+          rssUrls.map(async (url) => {
+            try {
+              return await fetchRSSFeed(url);
+            } catch (error) {
+              console.error(`Error fetching RSS feed from ${url}:`, error);
+              return null; // Skip this URL if it fails
+            }
+          })
+        );
+        setPodcasts(allPodcasts.filter(feed => feed !== null));
+      } catch (error) {
+        console.error('Error fetching podcasts:', error);
+      }
     };
-
+  
     fetchData();
   }, []);
+  
 
   const handleCardClick = (podcast: any) => {
     // Logic to bring up a player or navigate to a detailed player view
